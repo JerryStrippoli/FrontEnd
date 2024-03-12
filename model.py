@@ -21,18 +21,18 @@ def preprocess_input_data(data):
 @app.route('/api/predict', methods=['GET','POST'])
 def predict():
     if request.method == "POST":
-        return "working"
+        data = request.json
+        ticker = data['ticker']
+        model_filename = f'pretrained_lstm_model_{ticker}.h5'  # Adjust the filename based on the ticker
+        model = load_model(model_filename)
+        df = pd.read_csv(f'data/{ticker}.csv') 
+        
+        # Adjust the path to your CSV files
+        input_data = preprocess_input_data(df)
+        prediction = model.predict(input_data)
+        return jsonify({'prediction': prediction.tolist()})
     
-    data = request.json
-    ticker = data['ticker']
-    model_filename = f'pretrained_lstm_model_{ticker}.h5'  # Adjust the filename based on the ticker
-    model = load_model(model_filename)
-    df = pd.read_csv(f'data/{ticker}.csv') 
     
-     # Adjust the path to your CSV files
-    input_data = preprocess_input_data(df)
-    prediction = model.predict(input_data)
-    return jsonify({'prediction': prediction.tolist()})
 
 if __name__ == '__main__':
     app.run(debug=True)

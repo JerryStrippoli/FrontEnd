@@ -2,7 +2,7 @@
 // Replace 'http://localhost:5000/api/predicted_prices' with the actual endpoint
 // Make sure the endpoint returns data in the format { date: string, predicted_price: number }
 
-d3.json('http://localhost:5000/api/predict')
+d3.json('http://127.0.0.1:5000/api/predict')
   .then(function(data) {
     // Parse dates and convert predicted_price to number
     data.forEach(function(d) {
